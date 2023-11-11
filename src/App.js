@@ -1,25 +1,59 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react"
 
-function App() {
+export default function Screen(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="screen">
+     <App />
     </div>
-  );
+  )
 }
 
-export default App;
+function App(){
+  return <div className="container">
+    <SearchBar />
+    <ItemList />
+  </div>
+}
+
+function SearchBar(){
+
+  return <>
+  <p className="title">YAPILACAKLAR</p>
+  <input className="searchBar" placeholder="Entry ekle..."></input>
+  </>
+}
+
+function ItemList(){
+  return <li className="list">
+    <Items />
+  </li>
+}
+
+function Items(){
+  let itemsArrayed = ["react bak"]
+  return itemsArrayed.map(x => <Item value={x} />)
+  
+}
+
+function Item({value}){
+  const [isComplated,setIsComplated] = useState(false)
+
+  function handleClick(){
+    setIsComplated(!isComplated)
+  }
+
+  let item;
+
+  if (isComplated){
+    item =<ul className="item_checked"><input type="checkbox" className="checkBox" onClick={handleClick}></input>{value}</ul>
+  }else{
+    item =<ul className="item"><input type="checkbox" className="checkBox" onClick={handleClick}></input>{value}</ul>
+  }
+
+  return <>
+    {item}
+  </>
+}
+    
+
+
