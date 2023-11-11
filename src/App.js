@@ -9,16 +9,7 @@ export default function Screen(){
 }
 
 function App(){
-  const [items, setItems] = useState([
-    {
-      content: "react bak",
-      done: false
-    },
-    {
-      content: "vize bak",
-      done: true
-    },
-  ])
+  const [items, setItems] = useState([])
   const [currentItem,setCurrentItem] = useState('')
 
   function handleKey(event) {
