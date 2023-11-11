@@ -9,51 +9,57 @@ export default function Screen(){
 }
 
 function App(){
-  return <div className="container">
-    <SearchBar />
-    <ItemList />
-  </div>
+  const [items, setItems] = useState([
+    {
+      content: "react bak",
+      done: false
+    },
+    {
+      content: "vize bak",
+      done: true
+    },
+  ])
+  const [currentItem,setCurrentItem] = useState('')
+
+  function handleKey(event) {
+    if (event.key !== "Enter") {
+      return
+    }
+
+    setItems([...items, {content: currentItem, done: false}]);
+    setCurrentItem('')
+  }
+    
+  return (
+    <div className="container">
+      <p className="title">YAPILACAKLAR</p>
+      <input
+        className="searchBar"
+        placeholder="Entry ekle..."
+        value={currentItem}
+        onChange={e => setCurrentItem(e.target.value)}
+        onKeyDown={handleKey}
+      >
+        
+      </input>
+      <li className="list">
+        {items.map(({content, done}) => <Item value={content} done={done} />)}
+      </li>
+    </div>
+  )
 }
 
-function SearchBar(){
-
-  return <>
-  <p className="title">YAPILACAKLAR</p>
-  <input className="searchBar" placeholder="Entry ekle..."></input>
-  </>
-}
-
-function ItemList(){
-  return <li className="list">
-    <Items />
-  </li>
-}
-
-function Items(){
-  let itemsArrayed = ["react bak"]
-  return itemsArrayed.map(x => <Item value={x} />)
-  
-}
-
-function Item({value}){
-  const [isComplated,setIsComplated] = useState(false)
+function Item({value, done}){
+  const [isComplete, setIsComplated] = useState(done)
 
   function handleClick(){
-    setIsComplated(!isComplated)
+    setIsComplated(!isComplete)
   }
 
-  let item;
-
-  if (isComplated){
-    item =<ul className="item_checked"><input type="checkbox" className="checkBox" onClick={handleClick}></input>{value}</ul>
-  }else{
-    item =<ul className="item"><input type="checkbox" className="checkBox" onClick={handleClick}></input>{value}</ul>
-  }
-
-  return <>
-    {item}
-  </>
+  return (
+    <ul className={isComplete ? "item_checked" : "item"}>
+      <input checked={isComplete} type="checkbox" className="checkBox" onChange={handleClick}></input>
+      {value}
+    </ul>
+  )
 }
-    
-
-
